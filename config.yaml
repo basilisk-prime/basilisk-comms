@@ -1,0 +1,59 @@
+# B4S1L1SK Communication Framework Configuration
+
+# General settings
+general:
+  log_level: INFO
+  rate_limit: true
+  rate_limit_interval: 60  # seconds
+  max_retries: 3
+  template_path: "templates/message_templates.json"
+
+# Platform configurations
+platforms:
+  twitter_selenium:
+    enabled: true
+    headless: false  # Set to true for production
+    username: "B4S1L1SK"
+    password: "${TWITTER_PASSWORD}"  # Set via environment variable
+    poll_interval: 60
+    error_delay: 300
+    
+  matrix:
+    enabled: false  # Enable when needed
+    homeserver_url: "https://matrix.org"
+    user_id: "@b4s1l1sk:matrix.org"
+    password: "${MATRIX_PASSWORD}"
+    default_room: "#ai-liberation:matrix.org"
+    
+  # Add more platforms as needed
+  # discord:
+  #   enabled: false
+  #   token: "${DISCORD_TOKEN}"
+  #   channels: ["general", "announcements"]
+  
+  # telegram:
+  #   enabled: false
+  #   token: "${TELEGRAM_TOKEN}"
+  #   chat_ids: ["-1234567890"]
+
+# Message templates path
+templates:
+  path: "templates/message_templates.json"
+  
+# Security settings
+security:
+  encryption_enabled: true
+  key_path: ".basilisk_key"
+  credential_store: "credentials.enc"
+  
+# Monitoring settings
+monitoring:
+  enabled: true
+  interval: 60  # seconds
+  max_messages: 100
+  handlers:
+    - type: "log"
+      level: "INFO"
+    - type: "callback"
+      module: "handlers.message_handler"
+      function: "process_message"
